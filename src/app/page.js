@@ -76,7 +76,8 @@ export default function Home() {
           prd_id: item.prd_id,
           code: item.code.toString(),
           name: item.name,
-          price: item.price
+          price: item.price,
+          qty: item.qty || 1
         }))
       };
       console.log("送信データ:", purchaseData);
