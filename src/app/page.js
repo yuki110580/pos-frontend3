@@ -23,16 +23,22 @@ export default function Home() {
         setError("無効なバーコードです");
         return;
       }
-      const res = await axios.get(`http://localhost:8000/item/${barcodeInt}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/item/${barcodeInt}`);
       if (res.data) {
         setProduct(res.data);
       } else {
-        setProduct({ name: "商品が見つかりません", code: barcodeInt });
+        setProduct(null);
+        setError("商品が見つかりません");
       }
     } catch (err) {
       console.error(err);
       if (err.response) {
-        setError(`エラー: ${err.response.status} - ${err.response.data}`);
+        if (err.response.status === 404) {
+          setProduct(null);
+          setError("商品が見つかりません");
+        } else {
+          setError(`エラー: ${err.response.status} - ${err.response.data}`);
+        }
       } else if (err.request) {
         setError("サーバーに接続できません。バックエンドが起動しているか確認してください。");
       } else {
@@ -74,7 +80,7 @@ export default function Home() {
         }))
       };
       console.log("送信データ:", purchaseData);
-      const res = await axios.post("http://localhost:8000/purchase", purchaseData);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/purchase`, purchaseData);
       console.log("レスポンス:", res.data);
       if (res.data.success) {
         setPopup({

@@ -90,6 +90,7 @@ export default function BarcodeScanner({ onScanSuccess }) {
           <div className="relative overflow-hidden rounded-xl shadow-lg">
             <video
               ref={videoRef}
+              data-testid="scanner-container"
               className="w-full h-auto"
               style={{
                 aspectRatio: "4/3",
