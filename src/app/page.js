@@ -62,7 +62,7 @@ export default function Home() {
 
   const addToCart = () => {
     if (product && product.prd_id) {
-      setCart([...cart, product]);
+      setCart([...cart, { ...product, qty: 1 }]);
       setProduct(null);
     }
   };
